@@ -1,23 +1,29 @@
 extends layout
 
-block content
-  h1= title
-  p Welcome to #{title}
-  ol
-  each val in todos
-    li
-      span= val.task + ' - '
-      if val.completed > 0
-        span Completed
+block content 
+  h1 Comments
+  // add nav here
+  h2 Here is what our customers have to say about Downtown Donuts:
+  each val in comments
+    h5
+      span= val.title + ' - ' + val.rating + ' '
+      if val.rating = 1
+        span star
       else
-        span Not Completed
-      form(method='POST' action='/delete')
-        input(type='hidden', name='id', value=val.id)
-        button(type='submit') Delete
+        span stars
+    p= val.comment
+    p
+      span= '- ' + val.name
+
 
   hr
-  h2 Add a new task
+  h2 Add a comment
   form(method='POST' action='/create')
-    label(for='task') Task:
-    input(type='text', name='task', id='task', required)
-    button(type='submit') Create Task
+    label(for='name') Name:
+    input(type='text', name='name', id='name', required)
+    label(for='title') Title:
+    input(type='text', name='title', id='title', required)
+    label(for='rating') Rating:
+    input(type='number', min='0', max='5', name='rating' id='rating', required)
+    input(type='textarea', rows='10', columns='250', name='comment', id='comment', val='Type comments here', required)
+    button(type='submit') Post your comment
